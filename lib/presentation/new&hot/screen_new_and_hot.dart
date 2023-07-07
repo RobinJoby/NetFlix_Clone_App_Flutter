@@ -8,8 +8,8 @@ class ScreenNewAndHot extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: PreferredSize(
-        child: AppBarWidget(title: 'New & Hot'),
         preferredSize: Size.fromHeight(50),
+        child: AppBarWidget(title: 'New & Hot'),
       ),
       body: SafeArea(child: Text('ScreenNewAndHot')),
     );

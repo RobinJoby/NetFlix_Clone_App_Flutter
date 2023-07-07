@@ -8,6 +8,86 @@ import 'package:netflix_clone_app/presentation/widgets/app_bar_widget.dart';
 class ScreenDownloads extends StatelessWidget {
   const ScreenDownloads({super.key});
 
+  final _widgetList = const [
+    _SmartDownloads(),
+    Section2(),
+    Section3(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBarWidget(
+            title: 'Downloads',
+          ),
+        ),
+        body: ListView.separated(
+          padding: const EdgeInsets.all(10),
+          itemBuilder: (ctx, index) {
+            return _widgetList[index];
+          },
+          separatorBuilder: (ctx, index) {
+            return const SizedBox(
+              height: 25,
+            );
+          },
+          itemCount: _widgetList.length,
+        ));
+  }
+}
+
+class Section3 extends StatelessWidget {
+  const Section3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: MaterialButton(
+            color: kButtonColorBlue[700],
+            onPressed: () {},
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                'Set up',
+                style: TextStyle(
+                    color: kcolorWhite,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
+          ),
+        ),
+        kheight,
+        MaterialButton(
+          color: kButtonColorWhite,
+          onPressed: () {},
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              'See what you can download',
+              style: TextStyle(
+                  color: kcolorBlack,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class Section2 extends StatelessWidget {
+  const Section2({super.key});
+
   final List imageList = const [
     'https://www.themoviedb.org/t/p/w220_and_h330_face/fiVW06jE7z9YnO4trhaMEdclSiC.jpg',
     'https://www.themoviedb.org/t/p/w220_and_h330_face/2Gfjn962aaFSD6eST6QU3oLDZTo.jpg',
@@ -17,88 +97,91 @@ class ScreenDownloads extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(50),
-          child: AppBarWidget(
-            title: 'Downloads',
+    return Column(
+      children: [
+        const Text(
+          'Introducing Downloads for you',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: kcolorWhite,
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body: ListView(
-          children: [
-            const Row(
-              children: [
-                kwidth,
-                Icon(
-                  Icons.settings,
-                  color: kcolorWhite,
+        kheight,
+        const Text(
+          'We\'ll download personalised selection of\n movies and shows for you, so there is\n always something to watch on your\n device',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: kcolorGrey, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          width: size.width,
+          height: size.width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              CircleAvatar(
+                backgroundColor: Color.fromARGB(255, 117, 113, 113),
+                radius: size.width * 0.35,
+              ),
+              DownloadImageWidget(
+                size: Size(size.width * 0.3, size.width * 0.5),
+                imageList: imageList[0],
+                margin: const EdgeInsets.only(
+                  left: 170,
+                  bottom: 30,
                 ),
-                kwidth,
-                Text('Smart Downloads')
-              ],
-            ),
-            const Text('Introducing Downloads for you'),
-            const Text(
-                'We will download personalised selection of movies and shows for you, so there is always something to watch on your device'),
-            Container(
-              width: size.width,
-              height: size.width,
-              color: kcolorWhite,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: size.width * 0.37,
-                  ),
-                  DownloadImageWidget(
-                    size: Size(size.width * 0.4, size.width * 0.58),
-                    imageList: imageList[0],
-                    margin: const EdgeInsets.only(
-                      left: 130,
-                      bottom: 50,
-                    ),
-                    angle: 20,
-                  ),
-                  DownloadImageWidget(
-                    size: Size(size.width * 0.4, size.width * 0.58),
-                    imageList: imageList[1],
-                    
-                    margin:const  EdgeInsets.only(right: 130, bottom: 50),
-                    angle: -20,
-                  ),
-                  DownloadImageWidget(
-                    size: Size(size.width * 0.5, size.width * 0.68),
-                    imageList: imageList[2],
-                    margin: const EdgeInsets.only(bottom: 12),
-                    borderRadius: 20,
-                  ),
-                ],
+                angle: 17,
               ),
-            ),
-            MaterialButton(
-              color: kButtonColorBlue,
-              onPressed: () {},
-              child: const Text(
-                'Set up',
-                style: TextStyle(
-                    color: kcolorWhite,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              DownloadImageWidget(
+                size: Size(size.width * 0.3, size.width * 0.5),
+                imageList: imageList[1],
+                margin: const EdgeInsets.only(
+                  right: 170,
+                  bottom: 30,
+                ),
+                angle: -17,
               ),
-            ),
-            MaterialButton(
-              color: kButtonColorWhite,
-              onPressed: () {},
-              child: const Text(
-                'See what you can download',
-                style: TextStyle(
-                    color: kcolorBlack,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
+              DownloadImageWidget(
+                size: Size(size.width * 0.35, size.width * 0.55),
+                imageList: imageList[2],
+                margin: const EdgeInsets.only(bottom: 0),
+                borderRadius: 5,
               ),
-            )
-          ],
-        ));
+              // const Padding(
+              //   padding:  EdgeInsets.only(top: 210),
+              //   child:  Icon(Icons.add,color: Colors.red,),
+              // )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SmartDownloads extends StatelessWidget {
+  const _SmartDownloads({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        kwidth,
+        Icon(
+          Icons.settings,
+          color: kcolorWhite,
+        ),
+        kwidth,
+        Text(
+          'Smart Downloads',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        )
+      ],
+    );
   }
 }
 
@@ -108,7 +191,7 @@ class DownloadImageWidget extends StatelessWidget {
       required this.imageList,
       required this.margin,
       required this.size,
-      this.borderRadius = 10,
+      this.borderRadius = 7,
       this.angle = 0});
 
   final String imageList;
@@ -128,8 +211,10 @@ class DownloadImageWidget extends StatelessWidget {
           width: size.width,
           height: size.height,
           decoration: BoxDecoration(
-            
-            image: DecorationImage(image: NetworkImage(imageList)),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(imageList),
+            ),
           ),
         ),
       ),
