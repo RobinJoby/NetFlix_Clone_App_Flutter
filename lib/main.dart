@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:netflix_clone_app/core/colors/colors.dart';
 import 'package:netflix_clone_app/presentation/main_page/screen_main_page.dart';
 
@@ -15,10 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: backgroundColor,
         backgroundColor: Colors.black,
         primarySwatch: Colors.blue,
+        fontFamily: GoogleFonts.montserrat().fontFamily,
         textTheme: const TextTheme(
           
           bodyText1: TextStyle(color: Colors.white),
