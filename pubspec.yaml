@@ -31,7 +31,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  google_fonts: 
+  google_fonts: null
+  video_player: ^2.7.0
 
 dev_dependencies:
   build_runner: ^2.4.6
