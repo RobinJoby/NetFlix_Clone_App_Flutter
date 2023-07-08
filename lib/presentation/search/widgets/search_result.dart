@@ -3,7 +3,7 @@ import 'package:netflix_clone_app/core/constants.dart';
 import 'package:netflix_clone_app/presentation/search/widgets/title.dart';
 
 const imageUrl =
-    'https://www.themoviedb.org/t/p/w220_and_h330_face/fiVW06jE7z9YnO4trhaMEdclSiC.jpg';
+    'https://www.themoviedb.org/t/p/w220_and_h330_face/NNxYkU70HPurnNCSiCjYAmacwm.jpg';
 
 class SearchResultWidget extends StatelessWidget {
   const SearchResultWidget({super.key});
@@ -23,7 +23,7 @@ class SearchResultWidget extends StatelessWidget {
                 crossAxisSpacing: 8,
                 childAspectRatio: 1/1.4,
                 children: List.generate(20, (index) {
-                  return MainCard();
+                  return const MainCard();
                 })))
       ],
     );
@@ -46,3 +46,4 @@ class MainCard extends StatelessWidget {
     );
   }
 }
+

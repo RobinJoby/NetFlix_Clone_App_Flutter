@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone_app/core/colors/colors.dart';
-import 'package:netflix_clone_app/core/constants.dart';
+
 
 class VideoListItem extends StatelessWidget {
   const VideoListItem({super.key, required this.index});
