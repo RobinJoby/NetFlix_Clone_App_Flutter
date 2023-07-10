@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone_app/core/colors/colors.dart';
 
-
 class VideoListItem extends StatelessWidget {
   const VideoListItem({super.key, required this.index});
 
@@ -33,22 +32,25 @@ class VideoListItem extends StatelessWidget {
                     ),
                   ),
                 ),
-               const  Column(
+                const Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.0),
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage('https://www.themoviedb.org/t/p/w220_and_h330_face/fiVW06jE7z9YnO4trhaMEdclSiC.jpg'),
+                        backgroundImage: NetworkImage(
+                            'https://www.themoviedb.org/t/p/w220_and_h330_face/fiVW06jE7z9YnO4trhaMEdclSiC.jpg'),
                       ),
                     ),
-                    VideoActionWidget(icon: Icons.emoji_emotions_outlined,title: 'LOL',),
+                    VideoActionWidget(
+                      icon: Icons.emoji_emotions_outlined,
+                      title: 'LOL',
+                    ),
                     VideoActionWidget(icon: Icons.add, title: 'My List'),
                     VideoActionWidget(icon: Icons.share, title: 'Share'),
                     VideoActionWidget(icon: Icons.play_arrow, title: 'Play'),
                   ],
                 )
-                
               ],
             ),
           ),
@@ -59,20 +61,37 @@ class VideoListItem extends StatelessWidget {
 }
 
 class VideoActionWidget extends StatelessWidget {
-  const VideoActionWidget({super.key,required this.icon,required this.title});
+  const VideoActionWidget({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.iconSize = 30,
+    this.textSize = 16,
+    this.color = kcolorWhite,
+   
+  });
 
   final IconData icon;
   final String title;
+  final double iconSize;
+  final double textSize;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
-          Icon(icon,color: kcolorWhite,size: 30,),
-          Text(title,style: const TextStyle(color: kcolorWhite,fontSize: 16),),
-          
+          Icon(
+            icon,
+            color: kcolorWhite,
+            size: iconSize,
+          ),
+          Text(
+            title,
+            style:  TextStyle(color: color, fontSize: textSize),
+          ),
         ],
       ),
     );

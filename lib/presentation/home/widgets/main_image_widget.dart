@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_clone_app/presentation/home/widgets/main_image_action_widget.dart';
 
 import '../../../core/colors/colors.dart';
 import '../../../core/constants.dart';
-import '../../FastLaugh/widgets/video_list_item.dart';
-
 const imageUrl =
     'https://www.themoviedb.org/t/p/w220_and_h330_face/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg';
 
@@ -47,7 +46,7 @@ class MainImageWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const VideoActionWidget(icon: Icons.add, title: 'My List'),
+                const MainImageActionWidget(icon: Icons.add, title: 'My List'),
                 TextButton.icon(
                   onPressed: () {},
                   icon: const Icon(
@@ -70,7 +69,7 @@ class MainImageWidget extends StatelessWidget {
                   ),
                 ),
                 
-                const VideoActionWidget(icon: Icons.info_outline, title: 'Info')
+                const MainImageActionWidget(icon: Icons.info_outline, title: 'Info')
               ],
             ),
           )
