@@ -65,7 +65,7 @@ class ComingSoonListItem extends StatelessWidget {
                 child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: SizedBox(
-                height: 450,
+                height: 480,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -101,39 +101,49 @@ class ComingSoonListItem extends StatelessWidget {
                     kheigth20,
                     Row(
                       children: [
-                        Text('TALL GIRL 2',
-                            style: GoogleFonts.amaticSc(
-                              textStyle: const TextStyle(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: -2,
-                                  wordSpacing: -2),
-                            )),
-                        const Spacer(),
-                        const VideoActionWidget(
+                        Expanded(
+                          child: Text('TALL GIRL 2',
+                              style: GoogleFonts.amaticSc(
+                                textStyle: const TextStyle(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: -2,
+                                    wordSpacing: -2),
+                              )),
+                        ),
+                            const SizedBox(
+                              width: 45,
+                            ),
+                        const Row(
+                          children: [
+                        VideoActionWidget(
                           icon: Icons.notifications_none_outlined,
                           title: 'Remind Me',
                           iconSize: 25,
                           textSize: 13,
                         ),
                         kwidth20,
-                        const VideoActionWidget(
+                        VideoActionWidget(
                           icon: Icons.info_outline,
                           title: 'info',
                           iconSize: 25,
                           textSize: 13,
                         ),
                         kwidth
+                          ],
+                        )
                       ],
                     ),
                     const Text(
                       'Coming on Friday',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     kheigth20,
                     const Text(
                       'Tall Girl 2',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     kheight,
                     const Text(

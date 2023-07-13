@@ -1,7 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:netflix_clone_app/application/download/download_bloc.dart';
 import 'package:netflix_clone_app/core/colors/colors.dart';
+import 'package:netflix_clone_app/core/constant_strings.dart';
 import 'package:netflix_clone_app/core/constants.dart';
 import 'package:netflix_clone_app/presentation/widgets/app_bar_widget.dart';
 
@@ -88,15 +91,15 @@ class Section3 extends StatelessWidget {
 class Section2 extends StatelessWidget {
   const Section2({super.key});
 
-  final List imageList = const [
-    'https://www.themoviedb.org/t/p/w220_and_h330_face/fiVW06jE7z9YnO4trhaMEdclSiC.jpg',
-    'https://www.themoviedb.org/t/p/w220_and_h330_face/2Gfjn962aaFSD6eST6QU3oLDZTo.jpg',
-    'https://www.themoviedb.org/t/p/w220_and_h330_face/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg'
-  ];
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        BlocProvider.of<DownloadBloc>(context)
+            .add(const DownloadEvent.getDownloadImage());
+      },
+    );
     return Column(
       children: [
         const Text(
@@ -115,46 +118,66 @@ class Section2 extends StatelessWidget {
           style: TextStyle(
               color: kcolorGrey, fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        SizedBox(
-          width: size.width,
-          height: size.width,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 117, 113, 113),
-                radius: size.width * 0.35,
+        BlocBuilder<DownloadBloc, DownloadState>(
+          builder: (context, state) {
+            if(state.isLoading)
+            {
+              return SizedBox(
+                width: size.width,
+                height: size.width,
+                child: const Center(child: CircularProgressIndicator(),),
+              );
+            }
+            else if(state.isError)
+            {
+              return SizedBox(
+                width: size.width,
+                height: size.width,
+                child: const Center(child: Text('Oops! Something went wrong'),),
+              );
+            }
+            return SizedBox(
+              width: size.width,
+              height: size.width,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: const Color.fromARGB(255, 117, 113, 113),
+                    radius: size.width * 0.35,
+                  ),
+                  DownloadImageWidget(
+                    size: Size(size.width * 0.3, size.width * 0.5),
+                    imageList: '$imageAppendUrl${state.downloadList[2].posterPath}',
+                    margin: const EdgeInsets.only(
+                      left: 170,
+                      bottom: 30,
+                    ),
+                    angle: 17,
+                  ),
+                  DownloadImageWidget(
+                    size: Size(size.width * 0.3, size.width * 0.5),
+                    imageList: '$imageAppendUrl${state.downloadList[1].posterPath}',
+                    margin: const EdgeInsets.only(
+                      right: 170,
+                      bottom: 30,
+                    ),
+                    angle: -17,
+                  ),
+                  DownloadImageWidget(
+                    size: Size(size.width * 0.35, size.width * 0.55),
+                    imageList: '$imageAppendUrl${state.downloadList[0].posterPath}',
+                    margin: const EdgeInsets.only(bottom: 0),
+                    borderRadius: 5,
+                  ),
+                  // const Padding(
+                  //   padding:  EdgeInsets.only(top: 210),
+                  //   child:  Icon(Icons.add,color: Colors.red,),
+                  // )
+                ],
               ),
-              DownloadImageWidget(
-                size: Size(size.width * 0.3, size.width * 0.5),
-                imageList: imageList[0],
-                margin: const EdgeInsets.only(
-                  left: 170,
-                  bottom: 30,
-                ),
-                angle: 17,
-              ),
-              DownloadImageWidget(
-                size: Size(size.width * 0.3, size.width * 0.5),
-                imageList: imageList[1],
-                margin: const EdgeInsets.only(
-                  right: 170,
-                  bottom: 30,
-                ),
-                angle: -17,
-              ),
-              DownloadImageWidget(
-                size: Size(size.width * 0.35, size.width * 0.55),
-                imageList: imageList[2],
-                margin: const EdgeInsets.only(bottom: 0),
-                borderRadius: 5,
-              ),
-              // const Padding(
-              //   padding:  EdgeInsets.only(top: 210),
-              //   child:  Icon(Icons.add,color: Colors.red,),
-              // )
-            ],
-          ),
+            );
+          },
         ),
       ],
     );
