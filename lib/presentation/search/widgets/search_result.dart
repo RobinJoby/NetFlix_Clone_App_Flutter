@@ -1,9 +1,12 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:netflix_clone_app/application/search/search_bloc.dart';
+import 'package:netflix_clone_app/core/constant_strings.dart';
 import 'package:netflix_clone_app/core/constants.dart';
 import 'package:netflix_clone_app/presentation/search/widgets/title.dart';
 
-const imageUrl =
-    'https://www.themoviedb.org/t/p/w220_and_h330_face/NNxYkU70HPurnNCSiCjYAmacwm.jpg';
 
 class SearchResultWidget extends StatelessWidget {
   const SearchResultWidget({super.key});
@@ -15,30 +18,56 @@ class SearchResultWidget extends StatelessWidget {
       children: [
         const SearchTextTitle(title: 'Moview & TV'),
         kheight,
-        Expanded(
-            child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                childAspectRatio: 1/1.4,
-                children: List.generate(20, (index) {
-                  return const MainCard();
-                })))
+        BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const Expanded(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else if (state.isError) {
+              return const Expanded(
+                child: Center(
+                  child: Text('Oops! Something went wrong'),
+                ),
+              );
+            } else {
+              return Expanded(
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 1 / 1.4,
+                  children: List.generate(
+                    state.searchRespList.length,
+                    (index) {
+                      final _movie = state.searchRespList[index];
+                      return  MainCard(imageUrl: '$imageAppendUrl${_movie.posterPath}',);
+                    },
+                  ),
+                ),
+              );
+            }
+          },
+        )
       ],
     );
   }
 }
 
 class MainCard extends StatelessWidget {
-  const MainCard({super.key});
+  const MainCard({super.key,required this.imageUrl});
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
-        image: const DecorationImage(
+        image:  DecorationImage(
           fit: BoxFit.cover,
           image: NetworkImage(imageUrl),
         ),
@@ -46,4 +75,3 @@ class MainCard extends StatelessWidget {
     );
   }
 }
-
