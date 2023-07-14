@@ -41,6 +41,7 @@ dependencies:
   injectable: ^2.1.2
   injectable_generator: ^2.1.6
   json_annotation: ^4.8.1
+  share_plus: 4.2.0
   video_player: ^2.7.0
 
 dev_dependencies:

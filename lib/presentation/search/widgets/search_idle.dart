@@ -15,7 +15,7 @@ class SearchIdle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
+      (_) {
         BlocProvider.of<SearchBloc>(context)
             .add(const SearchEvent.initialize());
       },
