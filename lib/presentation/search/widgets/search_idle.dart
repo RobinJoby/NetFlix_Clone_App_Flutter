@@ -14,9 +14,12 @@ class SearchIdle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<SearchBloc>(context).add(const SearchEvent.initialize());
-    },);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        BlocProvider.of<SearchBloc>(context)
+            .add(const SearchEvent.initialize());
+      },
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -42,7 +45,9 @@ class SearchIdle extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (ctx, index) {
                     final _movie = state.idleList[index];
-                    return  TopSearchItemTile(title: _movie.title??'No title Provided', imageUrl: "$imageAppendUrl${_movie.posterPath}");
+                    return TopSearchItemTile(
+                        title: _movie.title ?? 'No title Provided',
+                        imageUrl: "$imageAppendUrl${_movie.posterPath}");
                   },
                   separatorBuilder: (ctx, index) {
                     return kheigth20;

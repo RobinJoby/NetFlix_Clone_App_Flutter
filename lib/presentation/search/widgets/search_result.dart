@@ -32,7 +32,9 @@ class SearchResultWidget extends StatelessWidget {
                   child: Text('Oops! Something went wrong'),
                 ),
               );
-            } else {
+            }
+            
+             else {
               return Expanded(
                 child: GridView.count(
                   shrinkWrap: true,

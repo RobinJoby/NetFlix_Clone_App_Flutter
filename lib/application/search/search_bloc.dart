@@ -16,12 +16,12 @@ part 'search_bloc.freezed.dart';
 
 @injectable
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-
   final SearchServices _searchServices;
   final DownloadServices _downloadServices;
-  
+
   SearchBloc(this._downloadServices, this._searchServices)
       : super(SearchState.initial()) {
+
     on<_Initialize>((event, emit) async {
       if (state.idleList.isNotEmpty) {
         emit(SearchState(
@@ -65,9 +65,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     });
 
     on<_GetSearchResp>((event, emit) async {
+     
       emit(
-        const SearchState(
-          isLoading: false,
+       const SearchState(
+          isLoading: true,
           isError: false,
           idleList: [],
           searchRespList: [],
@@ -76,11 +77,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       final _res = await _searchServices.getSearchResp(event.movieQuery);
 
-      print('Searching for ${event.movieQuery}');
-
       final _state = _res.fold(
         (MainFailure l) {
-          return const SearchState(
+          return  const SearchState(
             isLoading: false,
             isError: true,
             idleList: [],
