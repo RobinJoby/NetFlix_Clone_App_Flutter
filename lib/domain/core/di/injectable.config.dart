@@ -12,13 +12,16 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../../../application/download/download_bloc.dart' as _i8;
+import '../../../application/download/download_bloc.dart' as _i10;
 import '../../../application/fast_laugh/fast_laugh_bloc.dart' as _i5;
-import '../../../application/search/search_bloc.dart' as _i9;
+import '../../../application/newAndHot/new_and_hot_bloc.dart' as _i11;
+import '../../../application/search/search_bloc.dart' as _i12;
 import '../../../infrastructure/downloads/download_impl.dart' as _i4;
-import '../../../infrastructure/search/search_impl.dart' as _i7;
+import '../../../infrastructure/newAndHot/new_and_hot_impl.dart' as _i7;
+import '../../../infrastructure/search/search_impl.dart' as _i9;
 import '../../downloads/download_services.dart' as _i3;
-import '../../search/search_services.dart' as _i6;
+import '../../newAndHot/new_and_hot_services.dart' as _i6;
+import '../../search/search_services.dart' as _i8;
 
 extension GetItInjectableX on _i1.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -34,12 +37,15 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i3.DownloadServices>(() => _i4.DownloadImpl());
     gh.factory<_i5.FastLaughBloc>(
         () => _i5.FastLaughBloc(gh<_i3.DownloadServices>()));
-    gh.lazySingleton<_i6.SearchServices>(() => _i7.SearchImpl());
-    gh.factory<_i8.DownloadBloc>(
-        () => _i8.DownloadBloc(gh<_i3.DownloadServices>()));
-    gh.factory<_i9.SearchBloc>(() => _i9.SearchBloc(
+    gh.lazySingleton<_i6.NewAndHotServices>(() => _i7.NewAndHotImpl());
+    gh.lazySingleton<_i8.SearchServices>(() => _i9.SearchImpl());
+    gh.factory<_i10.DownloadBloc>(
+        () => _i10.DownloadBloc(gh<_i3.DownloadServices>()));
+    gh.factory<_i11.NewAndHotBloc>(
+        () => _i11.NewAndHotBloc(gh<_i6.NewAndHotServices>()));
+    gh.factory<_i12.SearchBloc>(() => _i12.SearchBloc(
           gh<_i3.DownloadServices>(),
-          gh<_i6.SearchServices>(),
+          gh<_i8.SearchServices>(),
         ));
     return this;
   }
