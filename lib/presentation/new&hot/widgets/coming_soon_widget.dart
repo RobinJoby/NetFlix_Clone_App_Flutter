@@ -31,7 +31,7 @@ class ComingSoonWidget extends StatelessWidget {
           );
         } else if (state.comingSoonList.isEmpty) {
           return const Center(
-            child: Text('No Movies found'),
+            child: Text(' '),
           );
         } else {
           return ListView.separated(

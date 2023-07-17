@@ -39,7 +39,25 @@ class NewAndHotImpl implements NewAndHotServices {
   }
 
   @override
-  Future<Either<MainFailure, NewAndHotResp>> getEveryoneWatchingData() {
-    throw UnimplementedError();
+  Future<Either<MainFailure, NewAndHotResp>> getEveryoneWatchingData() async{
+    try {
+      final _res = await Dio(BaseOptions()).get(
+      ApiEndPoints.newAndHotEveryoneWatching,
+      queryParameters: {
+        'api_key':apiKey,
+      }
+    );
+    if(_res.statusCode == 200 || _res.statusCode == 201)
+    {
+      final _everyoneWatchingData = NewAndHotResp.fromJson(_res.data);
+      return Right(_everyoneWatchingData);
+    }
+    else{
+      return const Left(MainFailure.serverFailure());
+    }
+    } catch (e) {
+      log(e.toString());
+      return const Left( MainFailure.clientFailure());
+    }
   }
 }

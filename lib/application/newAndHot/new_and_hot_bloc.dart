@@ -32,11 +32,11 @@ class NewAndHotBloc extends Bloc<NewAndHotEvent, NewAndHotState> {
         return;
       }
       
-      emit(const NewAndHotState(
+      emit( NewAndHotState(
         isLoading: true,
         isError: false,
         comingSoonList: [],
-        everyoneWatchingList: [],
+        everyoneWatchingList: state.everyoneWatchingList,
       ));
 
       final _res = await _newAndHotServices.getComingSoonData();
@@ -62,5 +62,54 @@ class NewAndHotBloc extends Bloc<NewAndHotEvent, NewAndHotState> {
 
       emit(_state);
     });
+
+    on<_GetEveryoneWatchingData>((event, emit) async {
+
+      if (state.everyoneWatchingList.isNotEmpty) {
+        emit(
+          NewAndHotState(
+            isLoading: false,
+            isError: false,
+            comingSoonList: state.comingSoonList,
+            everyoneWatchingList: state.everyoneWatchingList,
+          ),
+        );
+
+        return;
+      }
+      
+      emit(NewAndHotState(
+        isLoading: true,
+        isError: false,
+        comingSoonList: state.comingSoonList,
+        everyoneWatchingList: [],
+      ));
+
+      final _res = await _newAndHotServices.getEveryoneWatchingData();
+
+      final _state = _res.fold(
+        (MainFailure l) {
+          return  NewAndHotState(
+            isLoading: false,
+            isError: true,
+            comingSoonList: state.comingSoonList,
+            everyoneWatchingList: [],
+          );
+        },
+        (NewAndHotResp r) {
+          return NewAndHotState(
+            isLoading: false,
+            isError: false,
+            comingSoonList: state.comingSoonList,
+            everyoneWatchingList: r.results,
+          );
+        },
+      );
+
+      emit(_state);
+    });
+
   }
+
+  
 }
