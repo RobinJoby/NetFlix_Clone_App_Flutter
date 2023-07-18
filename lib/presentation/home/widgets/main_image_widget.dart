@@ -2,41 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:netflix_clone_app/presentation/home/widgets/main_image_action_widget.dart';
 
 import '../../../core/colors/colors.dart';
+import '../../../core/constant_strings.dart';
 import '../../../core/constants.dart';
-const imageUrl =
-    'https://www.themoviedb.org/t/p/w220_and_h330_face/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg';
+
 
 
 class MainImageWidget extends StatelessWidget {
   const MainImageWidget({
     super.key,
-    
+    required this.posterPath,
   });
 
-
+  final String posterPath;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+ 
     return Padding(
-      padding: const EdgeInsets.only(right: 8,left: 8),
+      padding: const EdgeInsets.only(right: 8, left: 8),
       child: Stack(
         children: [
-          
           Column(
             children: [
               kheight73,
-              Container(
+              SizedBox(
                 width: size.width,
                 height: size.width * 1.1,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(imageUrl),
-                  ),
+                child: Image.network(
+                  '$imageAppendUrl$posterPath',
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      );
+                    }
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(Icons.error_outline_rounded),
+                    );
+                  },
                 ),
               ),
-              kheight55
+              kheight65
             ],
           ),
           Positioned(
@@ -64,12 +78,11 @@ class MainImageWidget extends StatelessWidget {
                   style: const ButtonStyle(
                     padding: MaterialStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 10)),
-                    backgroundColor:
-                        MaterialStatePropertyAll(kcolorWhite),
+                    backgroundColor: MaterialStatePropertyAll(kcolorWhite),
                   ),
                 ),
-                
-                const MainImageActionWidget(icon: Icons.info_outline, title: 'Info')
+                const MainImageActionWidget(
+                    icon: Icons.info_outline, title: 'Info')
               ],
             ),
           )

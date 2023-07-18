@@ -19,59 +19,65 @@ class ComingSoonWidget extends StatelessWidget {
       BlocProvider.of<NewAndHotBloc>(context)
           .add(const NewAndHotEvent.getComingSoonData());
     });
-    return BlocBuilder<NewAndHotBloc, NewAndHotState>(
-      builder: (context, state) {
-        if (state.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state.isError) {
-          return const Center(
-            child: Text('Oops Something went wrong'),
-          );
-        } else if (state.comingSoonList.isEmpty) {
-          return const Center(
-            child: Text(' '),
-          );
-        } else {
-          return ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (ctx, index) {
-              final _movieData = state.comingSoonList[index];
-
-              String _movieDay;
-              String _movieMonth;
-
-              try {
-                final _date = DateFormat.yMMMMd()
-                    .format(DateTime.tryParse(_movieData.releaseDate!)!);
-
-                final _newDate = _date.split(',');
-
-                final _formattedDate = _newDate.first.split(' ');
-
-                _movieMonth =
-                    _formattedDate.first.substring(0, 3).toUpperCase();
-                _movieDay = _formattedDate.last;
-              } catch (e) {
-                _movieDay = ' ';
-                _movieMonth = ' ';
-              }
-              return ComingSoonListItem(
-                month: _movieMonth,
-                day: _movieDay,
-                posterPath: '$imageAppendUrl${_movieData.posterPath}',
-                title: _movieData.title ?? '',
-                overview: _movieData.overview ?? '',
-              );
-            },
-            separatorBuilder: (ctx, index) {
-              return kheight;
-            },
-            itemCount: 15,
-          );
-        }
+    return RefreshIndicator(
+      onRefresh: () async{
+        BlocProvider.of<NewAndHotBloc>(context)
+          .add(const NewAndHotEvent.getComingSoonData());
       },
+      child: BlocBuilder<NewAndHotBloc, NewAndHotState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.isError) {
+            return const Center(
+              child: Text('Oops Something went wrong'),
+            );
+          } else if (state.comingSoonList.isEmpty) {
+            return const Center(
+              child: Text(' '),
+            );
+          } else {
+            return ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (ctx, index) {
+                final _movieData = state.comingSoonList[index];
+    
+                String _movieDay;
+                String _movieMonth;
+    
+                try {
+                  final _date = DateFormat.yMMMMd()
+                      .format(DateTime.tryParse(_movieData.releaseDate!)!);
+    
+                  final _newDate = _date.split(',');
+    
+                  final _formattedDate = _newDate.first.split(' ');
+    
+                  _movieMonth =
+                      _formattedDate.first.substring(0, 3).toUpperCase();
+                  _movieDay = _formattedDate.last;
+                } catch (e) {
+                  _movieDay = ' ';
+                  _movieMonth = ' ';
+                }
+                return ComingSoonListItem(
+                  month: _movieMonth,
+                  day: _movieDay,
+                  posterPath: '$imageAppendUrl${_movieData.posterPath}',
+                  title: _movieData.title ?? '',
+                  overview: _movieData.overview ?? '',
+                );
+              },
+              separatorBuilder: (ctx, index) {
+                return kheight;
+              },
+              itemCount: 15,
+            );
+          }
+        },
+      ),
     );
   }
 }
@@ -136,16 +142,31 @@ class ComingSoonListItem extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
-                        Container(
-                          width: double.infinity,
-                          height: 180,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
+                        SizedBox(
+                            width: double.infinity,
+                            height: 180,
+                            child: Image.network(
+                              posterPath,
                               fit: BoxFit.cover,
-                              image: NetworkImage(posterPath),
+                              loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ));
+                          }
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(
+                              Icons.error_outline_rounded,
+                              color: Colors.white,
                             ),
-                          ),
-                        ),
+                          );
+                        },
+                            )),
                         Positioned(
                           bottom: 8,
                           right: 8,

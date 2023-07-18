@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../core/constant_strings.dart';
 import '../../../core/constants.dart';
-
-const imageUrl =
-    'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/hBUdnylt2a84PwGIPQcZDkCVB5M.jpg';
 
 class NumberCardWidget extends StatelessWidget {
   const NumberCardWidget({
     super.key,
     required this.title,
+    required this.posterPathList,
   });
 
   final String title;
+  final List<String> posterPathList;
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +42,39 @@ class NumberCardWidget extends StatelessWidget {
                             const SizedBox(
                               width: 40,
                             ),
-                            Container(
-                              width: size.width * 0.35,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(imageUrl),
-                                  )),
-                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                '$imageAppendUrl${posterPathList[index]}',
+                                width: size.width * 0.35,
+                                fit: BoxFit.cover,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  } else {
+                                    return SizedBox(
+                                      width: size.width * 0.35,
+                                      child: const Center(
+                                          child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      )),
+                                    );
+                                  }
+                                },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return SizedBox(
+                                    width: size.width * 0.35,
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.error_outline_rounded,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
                           ],
                         ),
                         Positioned(
@@ -60,27 +84,24 @@ class NumberCardWidget extends StatelessWidget {
                             child: Stack(
                               children: <Widget>[
                                 // Stroked text as border.
-                                Text(
-                                  '${index+1}',
-                                  
-                                  style: GoogleFonts.roboto(textStyle: TextStyle(
-                                    
-                                    fontSize: 100,
-                                    foreground: Paint()
-                                      ..style = PaintingStyle.stroke
-                                      ..strokeWidth = 5
-                                      ..color = Colors.white54,
-                                  ),)
-                                ),
+                                Text('${index + 1}',
+                                    style: GoogleFonts.roboto(
+                                      textStyle: TextStyle(
+                                        fontSize: 100,
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 5
+                                          ..color = Colors.white54,
+                                      ),
+                                    )),
                                 // Solid text as fill.
-                                Text(
-                                  '${index+1}',
-                                  style:GoogleFonts.roboto(textStyle:const TextStyle(
-                                    
-                                    fontSize: 100,
-                                    color: Colors.black,
-                                  ),)
-                                ),
+                                Text('${index + 1}',
+                                    style: GoogleFonts.roboto(
+                                      textStyle: const TextStyle(
+                                        fontSize: 100,
+                                        color: Colors.black,
+                                      ),
+                                    )),
                               ],
                             ))
                       ],
@@ -89,7 +110,7 @@ class NumberCardWidget extends StatelessWidget {
                   separatorBuilder: (ctx, index) {
                     return kwidth;
                   },
-                  itemCount: 10))
+                  itemCount: posterPathList.length))
         ],
       ),
     );

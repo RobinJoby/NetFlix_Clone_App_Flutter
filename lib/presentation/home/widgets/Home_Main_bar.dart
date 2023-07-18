@@ -17,7 +17,7 @@ class HomeMainBar extends StatelessWidget {
       child: Container(
         width: size.width,
         height: 75,
-        color: Colors.black.withOpacity(0.8),
+        color: Colors.black.withOpacity(0.9),
         child: Column(
           children: [
             Row(

@@ -14,8 +14,9 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../../../application/download/download_bloc.dart' as _i10;
 import '../../../application/fast_laugh/fast_laugh_bloc.dart' as _i5;
-import '../../../application/newAndHot/new_and_hot_bloc.dart' as _i11;
-import '../../../application/search/search_bloc.dart' as _i12;
+import '../../../application/home/home_bloc.dart' as _i11;
+import '../../../application/newAndHot/new_and_hot_bloc.dart' as _i12;
+import '../../../application/search/search_bloc.dart' as _i13;
 import '../../../infrastructure/downloads/download_impl.dart' as _i4;
 import '../../../infrastructure/newAndHot/new_and_hot_impl.dart' as _i7;
 import '../../../infrastructure/search/search_impl.dart' as _i9;
@@ -41,9 +42,10 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i8.SearchServices>(() => _i9.SearchImpl());
     gh.factory<_i10.DownloadBloc>(
         () => _i10.DownloadBloc(gh<_i3.DownloadServices>()));
-    gh.factory<_i11.NewAndHotBloc>(
-        () => _i11.NewAndHotBloc(gh<_i6.NewAndHotServices>()));
-    gh.factory<_i12.SearchBloc>(() => _i12.SearchBloc(
+    gh.factory<_i11.HomeBloc>(() => _i11.HomeBloc(gh<_i6.NewAndHotServices>()));
+    gh.factory<_i12.NewAndHotBloc>(
+        () => _i12.NewAndHotBloc(gh<_i6.NewAndHotServices>()));
+    gh.factory<_i13.SearchBloc>(() => _i13.SearchBloc(
           gh<_i3.DownloadServices>(),
           gh<_i8.SearchServices>(),
         ));

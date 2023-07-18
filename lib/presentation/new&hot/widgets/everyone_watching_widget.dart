@@ -16,38 +16,44 @@ class EveryoneWatchingWidget extends StatelessWidget {
       BlocProvider.of<NewAndHotBloc>(context)
           .add(const NewAndHotEvent.getEveryoneWatchingData());
     });
-    return BlocBuilder<NewAndHotBloc, NewAndHotState>(
-      builder: (context, state) {
-        if (state.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state.isError) {
-          return const Center(
-            child: Text('Oops Something went wrong'),
-          );
-        } else if (state.everyoneWatchingList.isEmpty) {
-          return const Center(
-            child: Text(' '),
-          );
-        } else {
-          return ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (ctx, index) {
-                final _movieData = state.everyoneWatchingList[index];
-
-                return EveryoneWatchingListItem(
-                  title: _movieData.title ?? '',
-                  overview: _movieData.overview ?? ' ',
-                  posterPath: '$imageAppendUrl${_movieData.posterPath}',
-                );
-              },
-              separatorBuilder: (ctx, index) {
-                return kheight55;
-              },
-              itemCount: state.everyoneWatchingList.length);
-        }
+    return RefreshIndicator(
+      onRefresh: () async{
+         BlocProvider.of<NewAndHotBloc>(context)
+          .add(const NewAndHotEvent.getEveryoneWatchingData());
       },
+      child: BlocBuilder<NewAndHotBloc, NewAndHotState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.isError) {
+            return const Center(
+              child: Text('Oops Something went wrong'),
+            );
+          } else if (state.everyoneWatchingList.isEmpty) {
+            return const Center(
+              child: Text(' '),
+            );
+          } else {
+            return ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (ctx, index) {
+                  final _movieData = state.everyoneWatchingList[index];
+    
+                  return EveryoneWatchingListItem(
+                    title: _movieData.title ?? '',
+                    overview: _movieData.overview ?? ' ',
+                    posterPath: '$imageAppendUrl${_movieData.posterPath}',
+                  );
+                },
+                separatorBuilder: (ctx, index) {
+                  return kheight55;
+                },
+                itemCount: state.everyoneWatchingList.length);
+          }
+        },
+      ),
     );
   }
 }
@@ -80,7 +86,7 @@ class EveryoneWatchingListItem extends StatelessWidget {
               ),
             ),
             kheight,
-             Text(
+            Text(
               overview,
               style: const TextStyle(
                   fontSize: 14,
@@ -91,16 +97,31 @@ class EveryoneWatchingListItem extends StatelessWidget {
             kheight30,
             Stack(
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 180,
-                  decoration:  BoxDecoration(
-                    image: DecorationImage(
+                SizedBox(
+                    width: double.infinity,
+                    height: 180,
+                    child: Image.network(
+                      posterPath,
                       fit: BoxFit.cover,
-                      image: NetworkImage(posterPath),
-                    ),
-                  ),
-                ),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ));
+                        }
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(
+                            Icons.error_outline_rounded,
+                            color: Colors.white,
+                          ),
+                        );
+                      },
+                    )),
                 Positioned(
                   bottom: 8,
                   right: 8,
