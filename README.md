@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+The code comprised of the Netflix UI along with the necessary API integrations from tmdb.
+The web build will be published in my another repo.
+Please do have a look.
+Use mobile phone while visiting the web app as it is not largely responsive.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
